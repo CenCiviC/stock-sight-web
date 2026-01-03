@@ -1,0 +1,375 @@
+# Stock Sight Web - 주식매매일지 기록 앱
+
+## 프로젝트 개요
+- **기술 스택**: React Router v7 (Remix 기반) + GraphQL + Prisma
+- **목적**: 증권사 거래일지 PDF를 파싱하여 주식매매 통계 및 분석 제공
+- **플랫폼**: 웹 (React Router) + 모바일 앱 (React Native WebView)
+
+---
+
+## 📋 TODO 리스트
+
+### Phase 1: 프로젝트 기반 설정
+- [ ] GraphQL 서버 설정 (GraphQL Yoga 또는 Apollo Server)
+- [ ] Prisma 초기화 및 데이터베이스 연결 설정
+- [ ] 환경 변수 설정 (.env 파일 및 관리)
+- [ ] 데이터베이스 스키마 설계 및 Prisma 모델 정의
+- [ ] GraphQL 스키마 정의 (타입, 쿼리, 뮤테이션)
+- [ ] 인증 시스템 기본 구조 (선택사항)
+
+### Phase 2: 데이터베이스 스키마 설계
+- [ ] User 모델 (사용자 정보)
+- [ ] Transaction 모델 (거래 내역)
+  - 매수/매도 정보
+  - 종목명, 종목코드
+  - 거래일시, 거래가격, 수량
+  - 수수료, 세금
+- [ ] DepositWithdrawal 모델 (입출금 내역)
+  - 입금/출금 구분
+  - 금액, 일시
+  - 거래 유형 (투자금, 수익금 등)
+- [ ] Stock 모델 (종목 정보)
+  - 종목명, 종목코드
+  - 시장 정보
+- [ ] Balance 모델 (잔고 정보)
+  - 날짜별 잔고 기록
+  - 투자원금, 수익금 구분
+
+### Phase 3: PDF 파싱 기능
+- [ ] PDF 파일 업로드 API 엔드포인트
+- [ ] PDF 파싱 라이브러리 통합 (pdf-parse 또는 pdfjs-dist)
+- [ ] 거래일지 파싱 로직
+  - 매수/매도 거래 추출
+  - 종목명, 거래일시, 가격, 수량 파싱
+  - 수수료 및 세금 정보 추출
+- [ ] 입출금 내역 파싱 로직
+  - 입금/출금 구분
+  - 금액 및 일시 추출
+- [ ] 파싱 결과 검증 및 에러 처리
+- [ ] 파싱된 데이터를 데이터베이스에 저장하는 로직
+
+### Phase 4: 데이터 관리 기능
+- [ ] 거래 내역 CRUD API (GraphQL)
+  - 거래 내역 조회
+  - 거래 내역 수정
+  - 거래 내역 삭제
+- [ ] 입출금 내역 CRUD API (GraphQL)
+- [ ] 종목 정보 관리 API
+- [ ] 데이터 검증 로직
+- [ ] 중복 데이터 처리 로직
+
+### Phase 5: 통계 계산 기능
+- [ ] 일별 통계 계산
+  - 일별 승률 계산
+  - 일별 전재산 수익률 계산
+- [ ] 월별 통계 계산
+  - 월별 승률 계산
+  - 월별 전재산 수익률 계산
+- [ ] 연도별 통계 계산
+  - 연도별 승률 계산
+  - 연도별 전재산 수익률 계산
+- [ ] 종목별 통계 계산
+  - 종목의 전재산 대비 수익률
+  - 종목의 자체 수익률 (매수 평균가 대비)
+- [ ] 예상 수익률 계산
+  - 현재 포지션 기준 월별 예상 balance
+  - 현재 포지션 기준 연도별 예상 balance
+- [ ] 입출금 분석
+  - 투자로 번 돈 (실제 수익)
+  - 실제로 들어온 돈 (입출금 차이)
+  - 투자원금 vs 수익금 구분
+
+### Phase 6: GraphQL API 개발
+- [ ] Query 정의
+  - 전체 통계 조회 (일/월/년별)
+  - 종목별 통계 조회
+  - 거래 내역 조회 (필터링, 페이지네이션)
+  - 입출금 내역 조회
+  - 예상 수익률 조회
+- [ ] Mutation 정의
+  - PDF 업로드 및 파싱
+  - 거래 내역 생성/수정/삭제
+  - 입출금 내역 생성/수정/삭제
+- [ ] GraphQL 리졸버 구현
+- [ ] 에러 핸들링 및 검증
+
+### Phase 7: 웹 UI 개발
+- [ ] 레이아웃 컴포넌트 (헤더, 사이드바, 메인 컨텐츠)
+- [ ] PDF 업로드 페이지
+  - 파일 업로드 UI
+  - 업로드 진행 상태 표시
+  - 파싱 결과 확인
+- [ ] 대시보드 페이지
+  - 전체 통계 요약 (승률, 수익률)
+  - 차트 (수익률 추이, 월별/연도별)
+- [ ] 거래 내역 페이지
+  - 거래 내역 목록 (테이블)
+  - 필터링 (종목, 날짜, 거래 유형)
+  - 거래 내역 상세/수정
+- [ ] 종목별 분석 페이지
+  - 종목 선택
+  - 종목별 통계 및 차트
+- [ ] 입출금 내역 페이지
+  - 입출금 내역 목록
+  - 투자원금 vs 수익금 구분 표시
+- [ ] 예상 수익률 페이지
+  - 월별/연도별 예상 balance 차트
+- [ ] 반응형 디자인 적용
+
+### Phase 8: React Native WebView 앱
+- [ ] React Native 프로젝트 초기화
+- [ ] WebView 설정 및 웹 앱 연결
+- [ ] 네이티브 기능 통합 (파일 업로드, 공유 등)
+- [ ] 앱 아이콘 및 스플래시 스크린
+- [ ] iOS 빌드 설정
+- [ ] Android 빌드 설정
+- [ ] 앱 스토어 배포 준비
+
+### Phase 9: 테스트 및 최적화
+- [ ] 단위 테스트 작성
+- [ ] 통합 테스트 작성
+- [ ] PDF 파싱 정확도 테스트 (다양한 증권사 형식)
+- [ ] 성능 최적화
+- [ ] 에러 핸들링 개선
+- [ ] 사용자 경험 개선
+
+### Phase 10: 배포
+- [ ] 프로덕션 환경 설정
+- [ ] 데이터베이스 마이그레이션
+- [ ] 웹 앱 배포
+- [ ] 모바일 앱 배포 (App Store, Google Play)
+
+---
+
+## 기술 스택 상세
+
+### Backend
+- React Router v7 (서버 사이드 렌더링)
+- GraphQL (API)
+- Prisma (ORM)
+- PostgreSQL 또는 MySQL (데이터베이스)
+
+### Frontend
+- React 19
+- Tailwind CSS
+- Chart 라이브러리 (recharts 또는 chart.js)
+- Framer Motion (애니메이션)
+
+### PDF 파싱
+- pdf-parse 또는 pdfjs-dist
+
+### Mobile
+- React Native
+- react-native-webview
+
+---
+
+## 디자인 시스템 (Linear 스타일)
+
+### 디자인 철학
+- **고성능 & 미니멀리즘**: 불필요한 장식을 배제하고 기능적 정보 전달에 집중
+- **다크 모드 우선**: 깊이감 있는 어두운 배경과 정교한 보더를 사용하여 세련된 느낌
+- **밀도 있는 UI**: 화면 내 많은 정보를 담으면서도 계층 구조가 명확하여 복잡해 보이지 않게 설계
+- **속도(Speed)와 장인정신(Craft)**: 빠른 반응성과 정교한 디테일
+
+### 컬러 팔레트
+
+#### Primary (Brand)
+- Primary: `#5E6AD2` (Indigo) - 주요 버튼 및 활성 상태 표시
+- Primary Hover: `#4F5BC4` - 호버 상태
+
+#### Background (Surface)
+- Main Background: `#08090A` - 거의 검은색에 가까운 짙은 회색
+- Surface: `#111213` - 카드나 사이드바 등 레이어 구분 시 사용
+- Elevated Surface: `#1A1B1C` - 호버 또는 강조된 카드
+
+#### Text
+- Primary Text: `#FFFFFF` - 본문 및 제목
+- Secondary Text: `#8A8F98` - 설명글 및 비활성 데이터
+- Tertiary Text: `#5F6368` - 부가 정보
+
+#### Accent
+- Positive: `#4ADE80` - 완료 상태, 수익 증가 등
+- Negative: `#F87171` - 손실, 에러 상태
+- Warning/Triage: `#F59E0B` - 검토 필요 상태
+- Info: `#60A5FA` - 정보성 알림
+
+#### Border
+- Default: `rgba(255, 255, 255, 0.1)` - 기본 보더 (1px)
+- Hover: `rgba(255, 255, 255, 0.15)` - 호버 시 보더
+- Focus: `rgba(94, 106, 210, 0.5)` - 포커스 상태
+
+### 타이포그래피
+
+#### 폰트
+- **Primary Font**: Inter 또는 system-ui (매우 깔끔한 산세리프 계열)
+- **Letter Spacing**: `-0.01em` ~ `-0.02em` (약간 좁게 설정하여 현대적이고 탄탄한 느낌)
+
+#### 폰트 크기 및 계층
+- **H1**: `32px` / `font-weight: 700` - 메인 제목
+- **H2**: `24px` / `font-weight: 600` - 섹션 제목
+- **H3**: `20px` / `font-weight: 600` - 서브 섹션 제목
+- **Body Large**: `16px` / `font-weight: 400` - 본문
+- **Body**: `14px` / `font-weight: 400` - 기본 텍스트
+- **Body Small**: `12px` / `font-weight: 400` - 작은 텍스트
+- **Caption**: `11px` / `font-weight: 400` - 캡션 및 메타 정보
+
+### 핵심 UI 컴포넌트
+
+#### List View
+- 1px 두께의 얇은 선으로 구분된 리스트
+- 마우스 호버 시 배경색이 미세하게 밝아지는 인터랙션 필수
+- 행 높이: `40px` ~ `48px` (밀도에 따라 조정)
+- 패딩: 좌우 `16px`, 상하 `12px`
+
+#### Details Sidebar
+- 우측에서 슬라이드되거나 고정된 상세 보기 창
+- 배경: `#111213`
+- 너비: `400px` ~ `480px`
+- 애니메이션: `0.2s ease-out`
+
+#### Badges & Labels
+- 둥근 모서리: `4px` ~ `6px` (약간의 곡률)
+- 색상 테두리 또는 배경색으로 상태 표시
+- 패딩: `4px 8px`
+- 폰트 크기: `12px`
+
+#### Filters & Tabs
+- 상단에 위치한 탭 형태의 필터
+- 선택된 필터: Indigo 색상으로 강조 (`#5E6AD2`)
+- 비활성 탭: Secondary Text 색상 (`#8A8F98`)
+- 호버 효과: 배경색 미세 변화
+
+#### Buttons
+- Primary Button: Indigo 배경 (`#5E6AD2`), 흰색 텍스트
+- Secondary Button: 투명 배경, Indigo 테두리
+- Ghost Button: 투명 배경, 호버 시 배경색 변화
+- 높이: `36px` ~ `40px`
+- 패딩: 좌우 `16px`
+- Border Radius: `6px`
+
+#### Cards
+- 배경: `#111213`
+- Border: `1px solid rgba(255, 255, 255, 0.1)`
+- Border Radius: `8px`
+- 패딩: `16px` ~ `24px`
+- 호버 시: 미세한 배경색 변화 및 보더 강조
+
+#### Input Fields
+- 배경: `#111213`
+- Border: `1px solid rgba(255, 255, 255, 0.1)`
+- Border Radius: `6px`
+- 높이: `40px`
+- 패딩: 좌우 `12px`
+- Focus: Indigo 보더 (`#5E6AD2`)
+
+### 인터랙션 및 모션
+
+#### Border
+- 모든 섹션 구분에 아주 얇고 세련된 선 사용
+- `border: 1px solid rgba(255, 255, 255, 0.1)`
+- 호버 시: `rgba(255, 255, 255, 0.15)`
+
+#### 애니메이션
+- **Snappy Transitions**: `0.1s` ~ `0.2s` (매우 짧고 경쾌하게)
+- **Easing**: `ease-out` 또는 `cubic-bezier(0.4, 0, 0.2, 1)`
+- **Hover**: 배경색 변화 `0.15s ease-out`
+- **Focus**: 보더 색상 변화 `0.1s ease-out`
+
+#### Shimmer Effect
+- 데이터 로딩 시나 특정 강조 요소에 은은하게 흐르는 빛 효과
+- `linear-gradient`와 `animation` 활용
+
+#### Shadows & Glow
+- 다크 모드에서도 입체감을 주기 위해 아주 미세한 Glow 효과
+- `box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3)`
+- 포커스 시: `0 0 0 2px rgba(94, 106, 210, 0.2)`
+
+### 레이아웃 원칙
+
+#### 그리드 시스템
+- 최대 너비: `1280px` (중앙 정렬)
+- 컬럼 간격: `24px`
+- 섹션 간격: `32px` ~ `48px`
+
+#### 사이드바
+- 너비: `240px` ~ `280px`
+- 배경: `#111213`
+- Border: 우측 `1px solid rgba(255, 255, 255, 0.1)`
+
+#### 스페이싱
+- 기본 단위: `4px` (4의 배수 사용)
+- 작은 간격: `4px`, `8px`, `12px`
+- 중간 간격: `16px`, `24px`
+- 큰 간격: `32px`, `48px`, `64px`
+
+### 차트 및 데이터 시각화
+
+#### 차트 스타일
+- 배경: 투명 또는 `#111213`
+- 그리드 라인: `rgba(255, 255, 255, 0.05)`
+- 데이터 라인: Indigo (`#5E6AD2`), Positive (`#4ADE80`), Negative (`#F87171`)
+- 포인트: 작고 정교한 원형 마커
+- 범례: Secondary Text 색상 사용
+
+#### 숫자 표시
+- 수익: Positive 색상 (`#4ADE80`)
+- 손실: Negative 색상 (`#F87171`)
+- 큰 숫자: Bold 처리
+- 작은 숫자: Secondary Text 색상
+
+### 반응형 디자인
+
+#### 브레이크포인트
+- Mobile: `0px` ~ `640px`
+- Tablet: `641px` ~ `1024px`
+- Desktop: `1025px` ~
+
+#### 모바일 고려사항
+- 사이드바: 드로어 형태로 전환
+- 테이블: 스크롤 가능한 형태
+- 터치 타겟: 최소 `44px × 44px`
+
+### 접근성 (Accessibility)
+
+- **색상 대비**: WCAG AA 기준 준수 (최소 4.5:1)
+- **포커스 표시**: 명확한 포커스 링 (Indigo 색상)
+- **키보드 네비게이션**: 모든 인터랙티브 요소 접근 가능
+- **스크린 리더**: 적절한 ARIA 레이블 사용
+
+---
+
+## 데이터 모델 주요 필드 (참고)
+
+### Transaction
+- id, userId, stockId
+- type (BUY/SELL)
+- date, price, quantity
+- fee, tax
+- totalAmount
+
+### DepositWithdrawal
+- id, userId
+- type (DEPOSIT/WITHDRAWAL)
+- amount, date
+- category (INVESTMENT/REVENUE)
+
+### Stock
+- id, code, name
+- market (KOSPI/KOSDAQ)
+
+### Balance
+- id, userId, date
+- totalBalance
+- investmentAmount (투자원금)
+- revenueAmount (수익금)
+
+---
+
+## 주의사항
+- PDF 형식이 증권사마다 다를 수 있으므로 유연한 파싱 로직 필요
+- 금융 데이터이므로 정확성과 보안에 중점
+- 대용량 데이터 처리 고려 (페이지네이션, 캐싱)
+- 모바일 앱은 웹뷰이므로 네이티브 파일 업로드 기능 필요
+- 무슨 일을 할 때마다 해당 문서에 있는 내용을 참고하여 작업을 진행하고 내용을 업데이트해줘
+
