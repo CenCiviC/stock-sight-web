@@ -2,6 +2,17 @@
 
 import { useMemo, useState } from 'react';
 import { Layout } from '~/components/Layout';
+import {
+	Badge,
+	Button,
+	Input,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '~/components/ui';
 import { useParsedData } from '~/contexts/ParsedDataContext';
 
 export function meta() {
@@ -48,122 +59,90 @@ export default function Transactions() {
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 					<div className="flex gap-2">
 						{(['ALL', 'BUY', 'SELL'] as const).map((type) => (
-							<button
-								type="button"
+							<Button
 								key={type}
+								variant={filterType === type ? 'primary' : 'secondary'}
+								size="sm"
 								onClick={() => setFilterType(type)}
-								className={`
-									rounded-md px-4 py-2 text-sm font-medium transition-colors
-									${
-										filterType === type
-											? 'bg-primary text-text-primary'
-											: 'bg-bg-surface text-text-secondary hover:bg-bg-elevated hover:text-text-primary'
-									}
-								`}
 							>
 								{type === 'ALL' ? '전체' : type === 'BUY' ? '매수' : '매도'}
-							</button>
+							</Button>
 						))}
 					</div>
 
-					<input
-						type="text"
-						placeholder="종목명 또는 종목코드 검색..."
-						value={searchTerm}
-						onChange={(e) => setSearchTerm(e.target.value)}
-						className="rounded-md border border-border bg-bg-surface px-4 py-2 text-sm text-text-primary placeholder:text-text-secondary focus:border-border-focus focus:outline-none focus:ring-2 focus:ring-border-focus"
-					/>
+					<div className="flex-1">
+						<Input
+							type="text"
+							placeholder="종목명 또는 종목코드 검색..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							className="sm:w-64"
+						/>
+					</div>
 				</div>
 
 				{/* 거래 내역 테이블 */}
-				<div className="overflow-hidden rounded-lg border border-border bg-bg-surface">
-					<div className="overflow-x-auto">
-						<table className="w-full">
-							<thead>
-								<tr className="border-b border-border">
-									<th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-secondary">
-										날짜
-									</th>
-									<th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-secondary">
-										종목
-									</th>
-									<th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-secondary">
-										유형
-									</th>
-									<th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-text-secondary">
-										거래 수량
-									</th>
-									<th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-text-secondary">
-										거래대금
-									</th>
-									<th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-text-secondary">
-										단가
-									</th>
-									<th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-text-secondary">
-										잔액
-									</th>
-								</tr>
-							</thead>
-							<tbody className="divide-y divide-border">
-								{filteredTransactions.length === 0 ? (
-									<tr>
-										<td
-											colSpan={7}
-											className="px-6 py-12 text-center text-sm text-text-secondary"
+				<Table>
+					<TableHeader>
+						<TableRow hover={false}>
+							<TableHead>날짜</TableHead>
+							<TableHead>종목</TableHead>
+							<TableHead>유형</TableHead>
+							<TableHead className="text-right">거래 수량</TableHead>
+							<TableHead className="text-right">거래대금</TableHead>
+							<TableHead className="text-right">단가</TableHead>
+							<TableHead className="text-right">잔액</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{filteredTransactions.length === 0 ? (
+							<TableRow hover={false}>
+								<TableCell
+									colSpan={7}
+									className="px-6 py-12 text-center text-sm text-text-secondary"
+								>
+									거래 내역이 없습니다.
+								</TableCell>
+							</TableRow>
+						) : (
+							filteredTransactions.map((tx) => (
+								<TableRow key={tx.id}>
+									<TableCell className="whitespace-nowrap">
+										{new Date(tx.date).toLocaleDateString('ko-KR')}
+									</TableCell>
+									<TableCell>
+										<div className="font-medium text-text-primary">
+											{tx.stockName}
+										</div>
+										<div className="text-xs text-text-secondary">
+											{tx.stockCode}
+										</div>
+									</TableCell>
+									<TableCell className="whitespace-nowrap">
+										<Badge
+											variant={tx.type === 'BUY' ? 'positive' : 'negative'}
+											size="sm"
 										>
-											거래 내역이 없습니다.
-										</td>
-									</tr>
-								) : (
-									filteredTransactions.map((tx) => (
-										<tr
-											key={tx.id}
-											className="transition-colors hover:bg-bg-elevated"
-										>
-											<td className="whitespace-nowrap px-6 py-4 text-sm text-text-primary">
-												{new Date(tx.date).toLocaleDateString('ko-KR')}
-											</td>
-											<td className="px-6 py-4 text-sm">
-												<div className="font-medium text-text-primary">
-													{tx.stockName}
-												</div>
-												<div className="text-xs text-text-secondary">
-													{tx.stockCode}
-												</div>
-											</td>
-											<td className="whitespace-nowrap px-6 py-4">
-												<span
-													className={`
-														inline-flex rounded-md px-2 py-1 text-xs font-medium
-														${
-															tx.type === 'BUY'
-																? 'bg-positive/10 text-positive'
-																: 'bg-negative/10 text-negative'
-														}
-													`}
-												>
-													{tx.type === 'BUY' ? '매수' : '매도'}
-												</span>
-											</td>
-											<td className="whitespace-nowrap px-6 py-4 text-right text-sm text-text-primary">
-												{tx.quantity.toLocaleString()}주
-											</td>
-											<td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium text-text-primary">
-												{tx.amount.toLocaleString()}원
-											</td>
-											<td className="whitespace-nowrap px-6 py-4 text-right text-sm text-text-primary">
-												{tx.price.toLocaleString()}원
-											</td>
-											<td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium text-text-primary">
-												{tx.balance.toLocaleString()}원
-											</td>
-										</tr>
-									))
-								)}
-							</tbody>
-						</table>
-					</div>
-				</div>
+											{tx.type === 'BUY' ? '매수' : '매도'}
+										</Badge>
+									</TableCell>
+									<TableCell className="whitespace-nowrap text-right">
+										{tx.quantity.toLocaleString()}주
+									</TableCell>
+									<TableCell className="whitespace-nowrap text-right font-medium">
+										{tx.amount.toLocaleString()}원
+									</TableCell>
+									<TableCell className="whitespace-nowrap text-right">
+										{tx.price.toLocaleString()}원
+									</TableCell>
+									<TableCell className="whitespace-nowrap text-right font-medium">
+										{tx.balance.toLocaleString()}원
+									</TableCell>
+								</TableRow>
+							))
+						)}
+					</TableBody>
+				</Table>
 			</div>
 		</Layout>
 	);

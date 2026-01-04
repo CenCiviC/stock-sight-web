@@ -2,6 +2,16 @@
 
 import { useMemo, useState } from 'react';
 import { Layout } from '~/components/Layout';
+import {
+	Badge,
+	Button,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '~/components/ui';
 import { useParsedData } from '~/contexts/ParsedDataContext';
 
 export function meta() {
@@ -43,97 +53,67 @@ export default function Deposits() {
 				{/* 필터 */}
 				<div className="flex gap-2">
 					{(['ALL', 'DEPOSIT', 'WITHDRAWAL'] as const).map((type) => (
-						<button
-							type="button"
+						<Button
 							key={type}
+							variant={filterType === type ? 'primary' : 'secondary'}
+							size="sm"
 							onClick={() => setFilterType(type)}
-							className={`
-								rounded-md px-4 py-2 text-sm font-medium transition-colors
-								${
-									filterType === type
-										? 'bg-primary text-text-primary'
-										: 'bg-bg-surface text-text-secondary hover:bg-bg-elevated hover:text-text-primary'
-								}
-							`}
 						>
 							{type === 'ALL' ? '전체' : type === 'DEPOSIT' ? '입금' : '출금'}
-						</button>
+						</Button>
 					))}
 				</div>
 
 				{/* 입출금 내역 테이블 */}
-				<div className="overflow-hidden rounded-lg border border-border bg-bg-surface">
-					<div className="overflow-x-auto">
-						<table className="w-full">
-							<thead>
-								<tr className="border-b border-border">
-									<th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-secondary">
-										날짜
-									</th>
-									<th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-secondary">
-										유형
-									</th>
-									<th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-text-secondary">
-										금액
-									</th>
-									<th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-text-secondary">
-										설명
-									</th>
-								</tr>
-							</thead>
-							<tbody className="divide-y divide-border">
-								{filteredDeposits.length === 0 ? (
-									<tr>
-										<td
-											colSpan={4}
-											className="px-6 py-12 text-center text-sm text-text-secondary"
+				<Table>
+					<TableHeader>
+						<TableRow hover={false}>
+							<TableHead>날짜</TableHead>
+							<TableHead>유형</TableHead>
+							<TableHead className="text-right">금액</TableHead>
+							<TableHead>설명</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{filteredDeposits.length === 0 ? (
+							<TableRow hover={false}>
+								<TableCell
+									colSpan={4}
+									className="px-6 py-12 text-center text-sm text-text-secondary"
+								>
+									입출금 내역이 없습니다.
+								</TableCell>
+							</TableRow>
+						) : (
+							filteredDeposits.map((dw) => (
+								<TableRow key={dw.id}>
+									<TableCell className="whitespace-nowrap">
+										{new Date(dw.date).toLocaleDateString('ko-KR')}
+									</TableCell>
+									<TableCell className="whitespace-nowrap">
+										<Badge
+											variant={dw.type === 'DEPOSIT' ? 'positive' : 'negative'}
+											size="sm"
 										>
-											입출금 내역이 없습니다.
-										</td>
-									</tr>
-								) : (
-									filteredDeposits.map((dw) => (
-										<tr
-											key={dw.id}
-											className="transition-colors hover:bg-bg-elevated"
-										>
-											<td className="whitespace-nowrap px-6 py-4 text-sm text-text-primary">
-												{new Date(dw.date).toLocaleDateString('ko-KR')}
-											</td>
-											<td className="whitespace-nowrap px-6 py-4">
-												<span
-													className={`
-														inline-flex rounded-md px-2 py-1 text-xs font-medium
-														${
-															dw.type === 'DEPOSIT'
-																? 'bg-positive/10 text-positive'
-																: 'bg-negative/10 text-negative'
-														}
-													`}
-												>
-													{dw.type === 'DEPOSIT' ? '입금' : '출금'}
-												</span>
-											</td>
-											<td
-												className={`whitespace-nowrap px-6 py-4 text-right text-sm font-medium ${
-													dw.type === 'DEPOSIT'
-														? 'text-positive'
-														: 'text-negative'
-												}`}
-											>
-												{dw.type === 'DEPOSIT' ? '+' : '-'}
-												{dw.amount.toLocaleString()}원
-											</td>
-											<td className="px-6 py-4 text-sm text-text-secondary">
-												{dw.description || '-'}
-											</td>
-										</tr>
-									))
-								)}
-							</tbody>
-						</table>
-					</div>
-				</div>
+											{dw.type === 'DEPOSIT' ? '입금' : '출금'}
+										</Badge>
+									</TableCell>
+									<TableCell
+										className={`whitespace-nowrap text-right font-medium ${
+											dw.type === 'DEPOSIT' ? 'text-positive' : 'text-negative'
+										}`}
+									>
+										{dw.type === 'DEPOSIT' ? '+' : '-'}
+										{dw.amount.toLocaleString()}원
+									</TableCell>
+									<TableCell className="text-text-secondary">
+										{dw.description || '-'}
+									</TableCell>
+								</TableRow>
+							))
+						)}
+					</TableBody>
+				</Table>
 			</div>
 		</Layout>
 	);

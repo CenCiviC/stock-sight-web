@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Layout } from '~/components/Layout';
 import { SummaryCards } from '~/components/SummaryCards';
+import { Card, CardContent } from '~/components/ui';
 import { useParsedData } from '~/contexts/ParsedDataContext';
 import { parsePDF } from '~/utils/pdf-parser.client';
 import type { Route } from './+types/home';
@@ -67,14 +68,18 @@ export default function Home() {
 				</div>
 
 				{isLoading ? (
-					<div className="flex flex-col items-center justify-center rounded-lg border border-border bg-bg-surface p-12">
-						<div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-border border-t-primary" />
-						<p className="text-sm text-text-secondary">PDF 파싱 중...</p>
-					</div>
+					<Card>
+						<CardContent className="flex flex-col items-center justify-center p-12">
+							<div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-border border-t-primary" />
+							<p className="text-sm text-text-secondary">PDF 파싱 중...</p>
+						</CardContent>
+					</Card>
 				) : error ? (
-					<div className="rounded-lg border border-negative bg-bg-elevated p-4">
-						<p className="text-sm text-negative">{error}</p>
-					</div>
+					<Card className="border-negative bg-bg-elevated">
+						<CardContent className="p-4">
+							<p className="text-sm text-negative">{error}</p>
+						</CardContent>
+					</Card>
 				) : data ? (
 					<SummaryCards />
 				) : null}

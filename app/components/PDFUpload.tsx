@@ -1,4 +1,11 @@
 import { useRef, useState } from 'react';
+import {
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from '~/components/ui';
 import { useParsedData } from '~/contexts/ParsedDataContext';
 import { parsePDF } from '~/utils/pdf-parser.client';
 
@@ -155,76 +162,80 @@ export function PDFUpload() {
 			</button>
 
 			{error && (
-				<div className="mt-4 rounded-lg border border-negative bg-bg-elevated p-4">
-					<p className="text-sm text-negative">{error}</p>
-				</div>
+				<Card className="mt-4 border-negative bg-bg-elevated">
+					<CardContent className="p-4">
+						<p className="text-sm text-negative">{error}</p>
+					</CardContent>
+				</Card>
 			)}
 
 			{/* 예제 PDF 로드 버튼 */}
 			<div className="mt-4 flex justify-center">
-				<button
+				<Button
 					type="button"
+					variant="secondary"
 					onClick={loadExamplePDF}
 					disabled={isParsing}
-					className="rounded-md border border-border bg-bg-surface px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:border-border-hover hover:bg-bg-elevated hover:text-text-primary disabled:opacity-50 disabled:cursor-not-allowed"
 				>
 					{isParsing ? '로딩 중...' : '예제 PDF 사용 (example.pdf)'}
-				</button>
+				</Button>
 			</div>
 
 			{/* 파싱 결과 디버깅 정보 */}
 			{data && (
-				<div className="mt-6 rounded-lg border border-border bg-bg-surface p-4">
-					<h3 className="mb-3 text-sm font-semibold text-text-primary">
-						파싱 결과 (디버깅)
-					</h3>
-					<div className="space-y-2 text-xs text-text-secondary">
-						<div>
-							<span className="font-medium">거래 내역:</span>{' '}
-							{data.transactions.length}건
-						</div>
-						<div>
-							<span className="font-medium">입출금 내역:</span>{' '}
-							{data.depositWithdrawals.length}건
-						</div>
-						<div>
-							<span className="font-medium">파싱 시간:</span>{' '}
-							{data.parsedAt.toLocaleString('ko-KR')}
-						</div>
-						{data.transactions.length > 0 && (
-							<div className="mt-3">
-								<div className="mb-2 font-medium">
-									거래 내역 샘플 (최대 3개):
-								</div>
-								<div className="max-h-48 space-y-1 overflow-y-auto rounded border border-border bg-bg-elevated p-2">
-									{data.transactions.slice(0, 3).map((tx) => (
-										<div key={tx.id} className="text-xs">
-											{tx.date.toLocaleDateString('ko-KR')} | {tx.type} |{' '}
-											{tx.stockName} ({tx.stockCode}) | {tx.quantity}주 |{' '}
-											{tx.price.toLocaleString()}원 |{' '}
-											{tx.balance.toLocaleString()}원
-										</div>
-									))}
-								</div>
+				<Card className="mt-6">
+					<CardHeader>
+						<CardTitle className="text-sm">파싱 결과 (디버깅)</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<div className="space-y-2 text-xs text-text-secondary">
+							<div>
+								<span className="font-medium">거래 내역:</span>{' '}
+								{data.transactions.length}건
 							</div>
-						)}
-						{data.depositWithdrawals.length > 0 && (
-							<div className="mt-3">
-								<div className="mb-2 font-medium">
-									입출금 내역 샘플 (최대 3개):
-								</div>
-								<div className="max-h-48 space-y-1 overflow-y-auto rounded border border-border bg-bg-elevated p-2">
-									{data.depositWithdrawals.slice(0, 3).map((dw) => (
-										<div key={dw.id} className="text-xs">
-											{dw.date.toLocaleDateString('ko-KR')} | {dw.type} |{' '}
-											{dw.amount.toLocaleString()}원 | {dw.description}
-										</div>
-									))}
-								</div>
+							<div>
+								<span className="font-medium">입출금 내역:</span>{' '}
+								{data.depositWithdrawals.length}건
 							</div>
-						)}
-					</div>
-				</div>
+							<div>
+								<span className="font-medium">파싱 시간:</span>{' '}
+								{data.parsedAt.toLocaleString('ko-KR')}
+							</div>
+							{data.transactions.length > 0 && (
+								<div className="mt-3">
+									<div className="mb-2 font-medium">
+										거래 내역 샘플 (최대 3개):
+									</div>
+									<div className="max-h-48 space-y-1 overflow-y-auto rounded border border-border bg-bg-elevated p-2">
+										{data.transactions.slice(0, 3).map((tx) => (
+											<div key={tx.id} className="text-xs">
+												{tx.date.toLocaleDateString('ko-KR')} | {tx.type} |{' '}
+												{tx.stockName} ({tx.stockCode}) | {tx.quantity}주 |{' '}
+												{tx.price.toLocaleString()}원 |{' '}
+												{tx.balance.toLocaleString()}원
+											</div>
+										))}
+									</div>
+								</div>
+							)}
+							{data.depositWithdrawals.length > 0 && (
+								<div className="mt-3">
+									<div className="mb-2 font-medium">
+										입출금 내역 샘플 (최대 3개):
+									</div>
+									<div className="max-h-48 space-y-1 overflow-y-auto rounded border border-border bg-bg-elevated p-2">
+										{data.depositWithdrawals.slice(0, 3).map((dw) => (
+											<div key={dw.id} className="text-xs">
+												{dw.date.toLocaleDateString('ko-KR')} | {dw.type} |{' '}
+												{dw.amount.toLocaleString()}원 | {dw.description}
+											</div>
+										))}
+									</div>
+								</div>
+							)}
+						</div>
+					</CardContent>
+				</Card>
 			)}
 		</div>
 	);
