@@ -8,3 +8,6 @@
 
 # private resources
 /resources
+
+*storybook.log
+storybook-static
