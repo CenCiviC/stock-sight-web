@@ -1,3 +1,4 @@
+import { Card, CardContent } from '~/components/ui';
 import { useParsedData } from '~/contexts/ParsedDataContext';
 
 export function SummaryCards() {
@@ -43,18 +44,17 @@ export function SummaryCards() {
 	return (
 		<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 			{cards.map((card) => (
-				<div
-					key={card.title}
-					className="rounded-lg border border-border bg-bg-surface p-6 transition-colors hover:border-border-hover hover:bg-bg-elevated"
-				>
-					<p className="mb-2 text-sm text-text-secondary">{card.title}</p>
-					<p
-						className={`text-2xl font-semibold ${card.color ?? 'text-text-primary'}`}
-					>
-						{card.value}{' '}
-						<span className="text-base text-text-secondary">{card.unit}</span>
-					</p>
-				</div>
+				<Card key={card.title} variant="elevated">
+					<CardContent className="p-6">
+						<p className="mb-2 text-sm text-text-secondary">{card.title}</p>
+						<p
+							className={`text-2xl font-semibold ${card.color ?? 'text-text-primary'}`}
+						>
+							{card.value}{' '}
+							<span className="text-base text-text-secondary">{card.unit}</span>
+						</p>
+					</CardContent>
+				</Card>
 			))}
 		</div>
 	);
