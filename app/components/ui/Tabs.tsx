@@ -1,4 +1,9 @@
-import { type HTMLAttributes, createContext, useContext, useState } from 'react';
+import {
+	createContext,
+	type HTMLAttributes,
+	useContext,
+	useState,
+} from 'react';
 
 interface TabsContextValue {
 	value: string;
@@ -111,4 +116,3 @@ export function TabsContent({
 		</div>
 	);
 }
-

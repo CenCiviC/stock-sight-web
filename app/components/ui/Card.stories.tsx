@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from './Button';
 import {
 	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
-	CardDescription,
-	CardContent,
-	CardFooter,
 } from './Card';
-import { Button } from './Button';
 
 const meta = {
 	title: 'UI/Card',
@@ -70,9 +70,7 @@ export const Elevated: Story = {
 		<Card variant="elevated" className="w-96">
 			<CardHeader>
 				<CardTitle>Elevated Card</CardTitle>
-				<CardDescription>
-					This card has hover effects enabled
-				</CardDescription>
+				<CardDescription>This card has hover effects enabled</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<p className="text-text-primary">
@@ -94,4 +92,3 @@ export const Simple: Story = {
 		</Card>
 	),
 };
-

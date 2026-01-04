@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from './Tabs';
 import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './Tabs';
 
 const meta = {
 	title: 'UI/Tabs',
@@ -114,4 +114,3 @@ export const Uncontrolled: Story = {
 		</div>
 	),
 };
-

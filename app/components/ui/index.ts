@@ -1,32 +1,31 @@
+export { Badge, type BadgeProps } from './Badge';
 export { Button, type ButtonProps } from './Button';
-export { Input, type InputProps } from './Input';
 export {
 	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
 	CardContent,
+	CardDescription,
 	CardFooter,
+	CardHeader,
 	type CardProps,
+	CardTitle,
 } from './Card';
-export { Badge, type BadgeProps } from './Badge';
-export {
-	Tabs,
-	TabsList,
-	TabsTrigger,
-	TabsContent,
-	type TabsProps,
-	type TabsTriggerProps,
-	type TabsContentProps,
-} from './Tabs';
+export { Input, type InputProps } from './Input';
 export {
 	Table,
-	TableHeader,
 	TableBody,
-	TableRow,
-	TableHead,
 	TableCell,
+	TableHead,
+	TableHeader,
 	type TableProps,
+	TableRow,
 	type TableRowProps,
 } from './Table';
-
+export {
+	Tabs,
+	TabsContent,
+	type TabsContentProps,
+	TabsList,
+	type TabsProps,
+	TabsTrigger,
+	type TabsTriggerProps,
+} from './Tabs';

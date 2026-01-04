@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Badge } from './Badge';
 import {
 	Table,
-	TableHeader,
 	TableBody,
-	TableRow,
-	TableHead,
 	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
 } from './Table';
-import { Badge } from './Badge';
 
 const meta = {
 	title: 'UI/Table',
@@ -63,27 +63,21 @@ export const Default: Story = {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{sampleData.map((row, index) => (
-						<TableRow key={index}>
+					{sampleData.map((row) => (
+						<TableRow key={`${row.date}-${row.stock}-${row.type}`}>
 							<TableCell>{row.date}</TableCell>
 							<TableCell>{row.stock}</TableCell>
 							<TableCell>
 								<Badge
-									variant={
-										row.type === 'BUY' ? 'positive' : 'negative'
-									}
+									variant={row.type === 'BUY' ? 'positive' : 'negative'}
 									size="sm"
 								>
 									{row.type === 'BUY' ? '매수' : '매도'}
 								</Badge>
 							</TableCell>
 							<TableCell>{row.quantity}</TableCell>
-							<TableCell>
-								{row.amount.toLocaleString()}원
-							</TableCell>
-							<TableCell>
-								{row.price.toLocaleString()}원
-							</TableCell>
+							<TableCell>{row.amount.toLocaleString()}원</TableCell>
+							<TableCell>{row.price.toLocaleString()}원</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -148,4 +142,3 @@ export const Empty: Story = {
 		</div>
 	),
 };
-

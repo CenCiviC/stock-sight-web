@@ -1,14 +1,11 @@
-import { type HTMLAttributes } from 'react';
+import type { HTMLAttributes, TdHTMLAttributes } from 'react';
 
 export interface TableProps extends HTMLAttributes<HTMLTableElement> {}
 
 export function Table({ className = '', ...props }: TableProps) {
 	return (
 		<div className="w-full overflow-auto">
-			<table
-				className={`w-full border-collapse ${className}`}
-				{...props}
-			/>
+			<table className={`w-full border-collapse ${className}`} {...props} />
 		</div>
 	);
 }
@@ -16,10 +13,7 @@ export function Table({ className = '', ...props }: TableProps) {
 export interface TableHeaderProps
 	extends HTMLAttributes<HTMLTableSectionElement> {}
 
-export function TableHeader({
-	className = '',
-	...props
-}: TableHeaderProps) {
+export function TableHeader({ className = '', ...props }: TableHeaderProps) {
 	return (
 		<thead
 			className={`bg-bg-surface border-b border-border ${className}`}
@@ -54,8 +48,7 @@ export function TableRow({
 	);
 }
 
-export interface TableHeadProps
-	extends HTMLAttributes<HTMLTableCellElement> {}
+export interface TableHeadProps extends HTMLAttributes<HTMLTableCellElement> {}
 
 export function TableHead({
 	className = '',
@@ -73,7 +66,7 @@ export function TableHead({
 }
 
 export interface TableCellProps
-	extends HTMLAttributes<HTMLTableCellElement> {}
+	extends TdHTMLAttributes<HTMLTableCellElement> {}
 
 export function TableCell({ className = '', ...props }: TableCellProps) {
 	return (
@@ -83,4 +76,3 @@ export function TableCell({ className = '', ...props }: TableCellProps) {
 		/>
 	);
 }
-
