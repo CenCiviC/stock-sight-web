@@ -9,8 +9,10 @@ import {
 
 import type { Route } from './+types/root';
 import './app.css';
+import { ParsedDataProvider } from './contexts/ParsedDataContext';
 
 export const links: Route.LinksFunction = () => [
+	{ rel: 'icon', href: './logo.svg' },
 	{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
 	{
 		rel: 'preconnect',
@@ -42,7 +44,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-	return <Outlet />;
+	return (
+		<ParsedDataProvider>
+			<Outlet />
+		</ParsedDataProvider>
+	);
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
