@@ -7,12 +7,15 @@
 		"dev": "react-router dev",
 		"start": "react-router-serve ./build/server/index.js",
 		"typecheck": "react-router typegen && tsc",
-		"lint": "biome check .",
-		"format": "biome format --write ."
+		"lint": "biome check --write .",
+		"format": "biome format --write .",
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build"
 	},
 	"dependencies": {
 		"@react-router/node": "7.10.1",
 		"@react-router/serve": "7.10.1",
+		"@storybook/react": "^10.1.11",
 		"isbot": "^5.1.31",
 		"pdfjs-dist": "^5.4.530",
 		"react": "^19.2.3",
@@ -22,10 +25,12 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.3.10",
 		"@react-router/dev": "7.10.1",
+		"@storybook/react-vite": "^10.1.11",
 		"@tailwindcss/vite": "^4.1.13",
 		"@types/node": "^22",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
+		"storybook": "^10.1.11",
 		"tailwindcss": "^4.1.13",
 		"typescript": "^5.9.2",
 		"vite": "^7.1.7",
